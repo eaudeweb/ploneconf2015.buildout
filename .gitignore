@@ -15,7 +15,7 @@ bootstrap.sh
 develop-eggs/
 include/
 lib/
-lib64/
+lib64
 local/
 parts/
 secret.cfg
