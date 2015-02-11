@@ -21,14 +21,16 @@ What you need in order to use developer buildout with Plone 4
 
 * Experience using a text editor to work with configuration files (``buildout.cfg``)
 
-* GCC compiler suite to build native Python extensions (Zope contains C code for optimized parts)
-
-* Python 2.6 (other versions are *not* ok for Plone 4)
-
-* Python Imaging Library installed for your Python interpreter (more below)
-
-* Python `Distribute <http://pypi.python.org/pypi/distribute>`_ installation tool, provided by your operating system
-  or installed by hand
+=======================  =======================  ===============================
+Debian/Ubuntu            CentOS                   dependency for
+=======================  =======================  ===============================
+python 2.7               python 2.7               buildout
+python-dev               python-devel             buildout
+python-test              python-test              buildout
+wget                     wget                     buildout
+gcc                      gcc                      buildout
+libxml2-dev              libxml2-devel            buildout
+libxslt-dev              libxslt-devel            buildout
 
 Read below from operating system specific instructions how to install these dependencies.
 
@@ -41,9 +43,9 @@ This buildout provides
 
 * ``paster`` command for creating Plone add-ons (different from system-wide installation)
 
-* `test <http://plone.org/documentation/manual/plone-community-developer-documentation/testing-and-debugging/unit-testing>`_ command for running automatic test suites 
+* `test <http://plone.org/documentation/manual/plone-community-developer-documentation/testing-and-debugging/unit-testing>`_ command for running automatic test suites
 
-* `i18ndude <http://pypi.python.org/pypi/i18ndude>`_  for managing text string translations in Python source code 
+* `i18ndude <http://pypi.python.org/pypi/i18ndude>`_  for managing text string translations in Python source code
 
 * `omelette <http://pypi.python.org/pypi/collective.recipe.omelette>`_ buildout recipe which makes Python egg source code more browseable by using symlinks
 
@@ -58,7 +60,7 @@ Creating Plone 4 buildout installation
 Install ZopeSkel template package for your system-wide Python using Distribute::
 
  easy_install ZopeSkel
- 
+
 ... or upgrade existing installation::
 
  easy_install -U ZopeSkel
@@ -81,13 +83,13 @@ Now you can run buildout script which will download all Python packages
 
 If this succesfully completes you can start buildout in foreground mode (Press *CTRL+C* to terminate)::
 
-  bin/instance fg 
+  bin/instance fg
 
 Now you can login to your site
 
   http://localhost:8080
 
-The default user is ``admin`` with password ``admin``. 
+The default user is ``admin`` with password ``admin``.
 After initial start-up admin password is stored in Data.fs databse file and value in ``buildout.cfg`` is ignored.
 Please follow `these instructions to change admin password <http://manage.plone.org/documentation/kb/changing-the-admin-password>`_.
 
@@ -104,9 +106,9 @@ Plone 4 buildout comes with ``bin/paster`` command for creating Plone add-ons.
 	When working with Plone add-ons, use paster command from buildout bin folder, not the system wide paster command.
 
 Create theme (applies for Plone 4 also)::
-	
+
 	bin/zopeskel plone3_theme plonetheme.mythemeid
-	
+
 Create Archetypes based content types package::
 
 	bin/zopeskel archetype mycompanyid.content
@@ -117,7 +119,7 @@ Create other Plone customizations::
 
 More info
 
-* `Instructions how to use Paster command to create your own add-ons <http://collective-docs.plone.org/tutorials/paste.html>`_ 
+* `Instructions how to use Paster command to create your own add-ons <http://collective-docs.plone.org/tutorials/paste.html>`_
 
 Managing source code checkouts with buildout
 =============================================
@@ -125,7 +127,7 @@ Managing source code checkouts with buildout
 `mr.developer buildout extension <http://pypi.python.org/pypi/mr.developer>`_ command which can be used with buildout to manage your source code repositories
 *mr.developer* makes source code checkout from multiple repositores a repeatable task.
 
-Operating system specific instructions 
+Operating system specific instructions
 -------------------------------------------
 
 Ubuntu/Debian
@@ -147,7 +149,7 @@ Install `Macports <http://www.macports.org/>`_.
 
 Then the following installs dependencies::
 
-	sudo port install python26 py26-pil py26-distribute wget 
+	sudo port install python26 py26-pil py26-distribute wget
 	easy_install ZopeSkel
 
 When you run ``bootstrap.py``use the following command to make sure you are using Python interpreter from Macports::
