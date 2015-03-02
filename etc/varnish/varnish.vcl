@@ -91,6 +91,7 @@ sub vcl_init {
 acl purge {
   "localhost";
   "127.0.0.1";
+  "10.0.0.56";
 }
 
 sub vcl_recv {
