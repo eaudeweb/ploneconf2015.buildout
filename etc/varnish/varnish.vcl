@@ -17,6 +17,13 @@ backend www_1 {
     .connect_timeout = 0.4s;       # How long to wait for a backend connection?
     .first_byte_timeout = 300s;    # How long to wait before we receive a first byte from our backend?
     .between_bytes_timeout  = 60s; # How long to wait between bytes received from our backend?
+    .probe = {
+         .url = "/";
+         .interval = 30s;
+         .timeout = 3s;
+         .window = 5;
+         .threshold = 3;
+    }
 }
 
 backend www_2 {
@@ -25,6 +32,13 @@ backend www_2 {
     .connect_timeout = 0.4s;
     .first_byte_timeout = 300s;
     .between_bytes_timeout  = 60s;
+    .probe = {
+         .url = "/";
+         .interval = 30s;
+         .timeout = 3s;
+         .window = 5;
+         .threshold = 3;
+    }
 }
 
 backend www_3 {
@@ -33,6 +47,13 @@ backend www_3 {
     .connect_timeout = 0.4s;
     .first_byte_timeout = 300s;
     .between_bytes_timeout  = 60s;
+    .probe = {
+         .url = "/";
+         .interval = 30s;
+         .timeout = 3s;
+         .window = 5;
+         .threshold = 3;
+    }
 }
 
 backend www_4 {
@@ -41,6 +62,13 @@ backend www_4 {
     .connect_timeout = 0.4s;
     .first_byte_timeout = 300s;
     .between_bytes_timeout  = 60s;
+    .probe = {
+         .url = "/";
+         .interval = 30s;
+         .timeout = 3s;
+         .window = 5;
+         .threshold = 3;
+    }
 }
 
 backend www_5 {
@@ -49,6 +77,13 @@ backend www_5 {
     .connect_timeout = 0.4s;
     .first_byte_timeout = 300s;
     .between_bytes_timeout  = 60s;
+    .probe = {
+         .url = "/";
+         .interval = 30s;
+         .timeout = 3s;
+         .window = 5;
+         .threshold = 3;
+    }
 }
 
 backend www_6 {
@@ -57,6 +92,13 @@ backend www_6 {
     .connect_timeout = 0.4s;
     .first_byte_timeout = 300s;
     .between_bytes_timeout  = 60s;
+    .probe = {
+         .url = "/";
+         .interval = 30s;
+         .timeout = 3s;
+         .window = 5;
+         .threshold = 3;
+    }
 }
 
 backend www_7 {
@@ -65,6 +107,13 @@ backend www_7 {
     .connect_timeout = 0.4s;
     .first_byte_timeout = 300s;
     .between_bytes_timeout  = 60s;
+    .probe = {
+         .url = "/";
+         .interval = 30s;
+         .timeout = 3s;
+         .window = 5;
+         .threshold = 3;
+    }
 }
 
 /*
@@ -77,14 +126,16 @@ Below is a redirector based on round-robin requests
 import directors;
 
 sub vcl_init {
-    new cluster1 = directors.round_robin(); # A new directors for round robin defined
-    cluster1.add_backend(www_1);        # Added Backend defined above
-    cluster1.add_backend(www_2);
-    cluster1.add_backend(www_3);
-    cluster1.add_backend(www_4);
-    cluster1.add_backend(www_5);
-    cluster1.add_backend(www_6);
-    cluster1.add_backend(www_7);
+    new plone_auth = directors.round_robin(); # auth
+    plone_auth.add_backend(www_1);
+    plone_auth.add_backend(www_2);
+
+    new plone_anon = directors.random();      # anon
+    plone_anon.add_backend(www_3, 1.0);
+    plone_anon.add_backend(www_4, 1.0);
+    plone_anon.add_backend(www_5, 1.0);
+    plone_anon.add_backend(www_6, 1.0);
+    plone_anon.add_backend(www_7, 1.0);
 }
 
 
@@ -95,11 +146,6 @@ acl purge {
 }
 
 sub vcl_recv {
-# ${vcl_recv}
-# ${virtal_hosting}
-
-set req.backend_hint = cluster1.backend();
-# set req.backend_hint = backend_1;
 
     if (req.method == "PURGE") {
         # Not from an allowed IP? Then die with an error.
@@ -170,7 +216,33 @@ set req.backend_hint = cluster1.backend();
         return(pass);
     }
 
-# ${vcl_plone_cookie_fixup}
+    # ${vcl_plone_cookie_fixup}
+
+    # cache authenticated requests by adding header
+    set req.http.X-Username = "Anonymous";
+
+    if (req.http.Cookie && req.http.Cookie ~ "__ac(|_(name|password|persistent))=") {
+            set req.http.X-Username = regsub( req.http.Cookie, "^.*?__ac=([^;]*);*.*$", "\1" );
+
+            # pick up a round-robin instance for authenticated users
+            set req.backend_hint = plone_auth.backend();
+
+            # pass (no caching)
+            unset req.http.If-Modified-Since;
+
+            return(pass);
+    }else{
+            # login form always goes to the reserved instances
+            if (req.url ~ "login_form$" || req.url ~ "login$") {
+                set req.backend_hint = plone_auth.backend();
+
+                # pass (no caching)
+                unset req.http.If-Modified-Since;
+                return(pass);
+            }else {
+              set req.backend_hint = plone_anon.backend();
+            }
+    }
 
     return(hash);
 }
