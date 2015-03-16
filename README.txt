@@ -28,9 +28,15 @@ pkg-config               pkgconfig                varnish
 python-docutils          python-docutils          varnish
 python-sphinx            python-sphinx            varnish
 
+Connect
+-------
+
+Connect to the production server (10.0.0.56) using your local account.
+
 Deploy
 ------
 
+  $ su zope-www
   $ cd /var/local/ploneconf2015.buildout
   $ git pull
   $ ./install.sh
@@ -52,9 +58,19 @@ Stop
 
   $ kill -9 `cat parts/varnish/varnish.pid`
   $ bin/zope-stop
+  
+Update
+------
 
-Crons
------
+  $ su zope-www
+  $ cd /var/local/ploneconf2015.buildout
+  $ git pull
+  $ bin/develop up
+  $ bin/buildout
+  $ bin/zope-restart
+
+Cron jobs
+----------
 
   $ crontab -u zope-www -e
   @reboot cd /var/local/ploneconf2015.buildout && bin/varnish && bin/zope-start
