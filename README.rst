@@ -1,6 +1,6 @@
-================================
-Plone 4 buildout for developers
-================================
+========================
+Plone Conf 2015 buildout
+========================
 
 .. contents ::
 
@@ -36,6 +36,7 @@ Connect to the production server (10.0.0.56) using your local account.
 
 Deploy
 ------
+::
 
   $ su zope-www
   $ cd /var/local/ploneconf2015.buildout
@@ -45,23 +46,27 @@ Deploy
 
 First run
 ---------
+::
 
   $ bin/varnish
   $ bin/zope-start
 
 Restart
 -------
+::
 
   $ bin/zope-restart
 
 Stop
 ----
+::
 
   $ kill -9 `cat parts/varnish/varnish.pid`
   $ bin/zope-stop
   
 Update
 ------
+::
 
   $ su zope-www
   $ cd /var/local/ploneconf2015.buildout
@@ -72,6 +77,7 @@ Update
 
 Cron jobs
 ----------
+::
 
   $ crontab -u zope-www -e
   @reboot cd /var/local/ploneconf2015.buildout && bin/varnish && bin/zope-start
