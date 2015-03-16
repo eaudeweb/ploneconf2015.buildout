@@ -7,26 +7,27 @@ Plone 4 buildout for developers
 Prerequisitements
 -----------------
 
-=======================  =======================  ===============================
-Debian/Ubuntu            CentOS                   dependency for
-=======================  =======================  ===============================
-python 2.7               python 2.7               buildout
-python-dev               python-devel             buildout
-python-test              python-test              buildout
-wget                     wget                     buildout
-gcc                      gcc                      buildout
-libxml2-dev              libxml2-devel            buildout
-libxslt-dev              libxslt-devel            buildout
-automake                 automake                 varnish
-autotools-dev            autoconf                 varnish
-libedit-dev              libedit-devel            varnish
-libjemalloc-dev          jemalloc-devel           varnish
-libncurses-dev           ncurses-devel            varnish
-libpcre3-dev             pcre-devel               varnish
-libtool                  libtool                  varnish
-pkg-config               pkgconfig                varnish
-python-docutils          python-docutils          varnish
-python-sphinx            python-sphinx            varnish
+================  ================  ===============
+Debian/Ubuntu     CentOS            dependency for 
+================  ================  ===============
+python 2.7        python 2.7        buildout
+python-dev        python-devel      buildout
+python-test       python-test       buildout
+wget              wget              buildout
+gcc               gcc               buildout
+libxml2-dev       libxml2-devel     buildout
+libxslt-dev       libxslt-devel     buildout
+automake          automake          varnish
+autotools-dev     autoconf          varnish
+libedit-dev       libedit-devel     varnish
+libjemalloc-dev   jemalloc-devel    varnish
+libncurses-dev    ncurses-devel     varnish
+libpcre3-dev      pcre-devel        varnish
+libtool           libtool           varnish
+pkg-config        pkgconfig         varnish
+python-docutils   python-docutils   varnish
+python-sphinx     python-sphinx     varnish
+================  ================  ===============
 
 Connect
 -------
