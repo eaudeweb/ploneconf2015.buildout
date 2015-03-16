@@ -149,9 +149,9 @@ sub vcl_recv {
 
     if (req.method == "PURGE") {
         # Not from an allowed IP? Then die with an error.
-        if (!client.ip ~ purge) {
-            return (synth(405, "This IP is not allowed to send PURGE requests."));
-        }
+        #if (!client.ip ~ purge) {
+        #    return (synth(405, "This IP is not allowed to send PURGE requests."));
+        #}
         return(purge);
     }
 
