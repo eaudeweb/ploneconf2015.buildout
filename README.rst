@@ -75,6 +75,9 @@ Update
   $ bin/develop up
   $ bin/buildout
   $ bin/zope-restart
+  $ parts/varnish-build/bin/varnishadm
+  > stop
+  > start
 
 Cron jobs
 ----------
