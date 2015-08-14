@@ -73,7 +73,7 @@ Update
   $ cd /var/local/ploneconf2015.buildout
   $ git pull
   $ bin/develop up
-  $ bin/buildout
+  $ bin/develop rb
   $ bin/zope-restart
   $ parts/varnish-build/bin/varnishadm
   > stop
